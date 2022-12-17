@@ -1,0 +1,28 @@
+import math
+class Solution:
+    def stoneGameIII(self, stoneValue: List[int]) -> str:
+        def f(self,nums,i,n,dp):
+            if i>=n:
+                dp[i]=0
+                return dp[i]
+            if dp[i]!=" ":
+                return dp[i]
+            a=nums[i]-f(self,nums,i+1,n,dp)
+            b,c=-1*math.inf,-1*math.inf
+            if i+1<n:
+                b=nums[i]+nums[i+1]-f(self,nums,i+2,n,dp)
+            if i+2<n and i+1<n:
+                c=nums[i]+nums[i+1]+nums[i+2]-f(self,nums,i+3,n,dp)
+            dp[i]=max(a,max(b,c))
+            return dp[i]
+
+
+        n=len(stoneValue)
+        dp=[" " for i in range(n+1)]
+        ans=f(self,stoneValue,0,n,dp)
+        if ans==0:
+            return "Tie"
+        elif ans>0:
+            return "Alice"
+        else:
+            return "Bob"
